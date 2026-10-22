@@ -51,8 +51,8 @@ import { SITE } from '../data/site';
   @media (max-width:760px){
     .topo{flex-direction:column;align-items:center;text-align:center}
     .marca{align-items:center}
-    /* colunas centralizadas como bloco, texto alinhado à esquerda */
-    .cols{justify-content:center;text-align:left;gap:40px}
+    /* as duas colunas dividem a mesma borda esquerda; o grupo fica centralizado */
+    .cols{display:grid;grid-template-columns:minmax(0,max-content);justify-content:center;justify-items:start;text-align:left;gap:40px}
     .col{align-items:flex-start}
     .legal{justify-content:center;text-align:center;flex-direction:column;align-items:center}
   }
