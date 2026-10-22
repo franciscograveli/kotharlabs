@@ -1,0 +1,1 @@
+Favicon e ícones de app: punção sólido em `osso` com o K vazado sobre tile `forja`. O `favicon.svg` é o principal; os PNGs cobrem fallback (16, 32, 48), iOS (`apple-touch-icon`, 180, sem transparência) e manifesto de app web (192, 512 e uma versão maskable de 512 com margem de segurança). Tags de uso na seção Aplicações.

@@ -1,0 +1,70 @@
+---
+import Pagina from '../layouts/Pagina.astro';
+import { SITE, mailto } from '../data/site';
+// TODO: incluir CNPJ e endereço da empresa na identificação ("Quem somos") quando existirem.
+// Hoje NADA disso aparece na página, de propósito. Ver TODO.md.
+// Texto de boa-fé em linguagem simples. As suposições que precisam de revisão jurídica estão em docs/REVISAO-JURIDICA.md.
+---
+<Pagina titulo="Privacidade · Kothar Labs" noindex={false}>
+  <p class="eyebrow">Privacidade</p>
+  <h1 class="h2">Usamos seus dados só para responder você.</h1>
+  <p class="atualizacao">Última atualização: <time datetime="2026-10-22">22 de outubro de 2026</time></p>
+  <div class="texto">
+    <h2 class="h3">Quem somos</h2>
+    <p>Somos a Kothar Labs, uma casa de desenvolvimento de software e consultoria. Quem decide como os dados deste site são usados somos nós. Para qualquer assunto sobre seus dados, escreva para <a class="tlink" href={mailto()}>{SITE.email}</a>.</p>
+
+    <h2 class="h3">Que dados coletamos</h2>
+    <p>Em dois momentos:</p>
+    <ul>
+      <li><strong>No formulário de contato:</strong> nome, e-mail, se você é startup ou empresa e a mensagem que você escrever.</li>
+      <li><strong>Registros técnicos do servidor:</strong> endereço IP, data e hora e a página acessada, como todo servidor web registra.</li>
+    </ul>
+    <p>Além disso, medimos as visitas de forma anônima, como explicado logo abaixo. Não usamos cookies nem rastreadores de terceiros, e não pedimos mais nada.</p>
+
+    <h2 class="h3">O que medimos</h2>
+    <p>Para saber se o site cumpre o seu papel, contamos visitas com uma ferramenta de código aberto (Umami) que roda no nosso próprio servidor. Nenhum terceiro recebe esses dados. Medimos apenas:</p>
+    <ul>
+      <li>a página visitada (sem o que vem depois do endereço, como parâmetros);</li>
+      <li>a origem da visita: só o domínio do site de onde você veio, por exemplo google.com;</li>
+      <li>cliques no botão de contato (e em qual botão);</li>
+      <li>navegador, sistema e tipo de aparelho, e uma localização aproximada (país, região ou cidade), que o servidor deduz a partir da sua conexão.</li>
+    </ul>
+    <p>Seu IP é usado na hora para essa dedução e <strong>não é gravado</strong> na medição. Não usamos cookies nem guardamos nada no seu navegador, e a ferramenta não identifica nem acompanha você entre visitas. Se o seu navegador envia o sinal Do Not Track (ou Global Privacy Control), a medição nem começa.</p>
+
+    <h2 class="h3">Para que usamos</h2>
+    <p>Para responder ao seu contato, para manter o site seguro (por exemplo, barrar envios automáticos em massa) e para entender, em números agregados, quais páginas são visitadas. Não enviamos newsletter, não vendemos seus dados e não os usamos para publicidade.</p>
+
+    <h2 class="h3">Por que podemos usar</h2>
+    <p>Usamos o que você escreve no formulário com o seu consentimento, que você dá ao enviar, e para dar os passos preliminares de uma possível contratação, a pedido seu. Os registros técnicos servem à segurança do site, e a medição anônima de visitas, a entender o uso do site.</p>
+
+    <h2 class="h3">Por quanto tempo guardamos</h2>
+    <p>Mensagens e e-mails de contato ficam na nossa caixa de e-mail por até 12 meses depois do último contato, e então são apagados, salvo se virarmos fornecedores de você: nesse caso, guardamos o que o contrato e a lei exigirem. Os registros técnicos do servidor ficam por um período curto e são descartados em rotação. As estatísticas anônimas de visitas ficam no nosso servidor, sem prazo de descarte definido por enquanto.</p>
+
+    <h2 class="h3">Com quem compartilhamos</h2>
+    <p>Só com quem é necessário para o site funcionar: o provedor de hospedagem, que serve as páginas, e o provedor de e-mail, que entrega a sua mensagem à nossa caixa. Eles tratam os dados apenas para nos prestar esse serviço. A medição de visitas não é compartilhada com ninguém: roda no nosso servidor.</p>
+
+    <h2 class="h3">Seus direitos</h2>
+    <p>A LGPD (art. 18) garante que você pode pedir, a qualquer momento:</p>
+    <ul>
+      <li>confirmação de que tratamos seus dados e acesso a eles;</li>
+      <li>correção de dados incompletos ou errados;</li>
+      <li>anonimização, bloqueio ou eliminação de dados desnecessários ou tratados fora da lei;</li>
+      <li>portabilidade dos dados;</li>
+      <li>eliminação dos dados tratados com o seu consentimento;</li>
+      <li>informação sobre com quem compartilhamos;</li>
+      <li>informação sobre a possibilidade de não consentir e suas consequências;</li>
+      <li>revogação do consentimento.</li>
+    </ul>
+    <p>Para exercer qualquer um, escreva para <a class="tlink" href={mailto()}>{SITE.email}</a>. Respondemos em até 15 dias. Se achar que não resolvemos, você também pode reclamar à Autoridade Nacional de Proteção de Dados (ANPD).</p>
+
+    <h2 class="h3">Cookies</h2>
+    <p>Este site não usa cookies, nem de rastreamento nem de medição. O formulário também não usa: a verificação contra envio automático é feita sem eles.</p>
+  </div>
+  <a class="tlink" href="/">Voltar para o início</a>
+</Pagina>
+<style>
+  .atualizacao{font-family:var(--mono);font-size:12px;line-height:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--pedra)}
+  .texto{display:flex;flex-direction:column;gap:12px;max-width:620px;margin-bottom:12px}
+  .texto .h3{margin-top:20px}
+  .texto ul{list-style:disc;padding-left:22px;display:flex;flex-direction:column;gap:6px}
+</style>

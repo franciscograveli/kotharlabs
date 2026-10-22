@@ -1,0 +1,64 @@
+---
+import '../styles/global.css';
+import Relevo from '../components/Relevo.astro';
+import { SITE } from '../data/site';
+
+interface Props { titulo?: string; noindex?: boolean }
+const { titulo = SITE.titulo, noindex = false } = Astro.props;
+// medição própria (Umami): sem o id do site no build, o script não é emitido
+const medicaoId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
+const canonical = new URL(Astro.url.pathname, SITE.url).href;
+const og = new URL('/og-image.png', SITE.url).href;
+const ldJson = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE.nome,
+  url: SITE.url,
+  logo: new URL('/favicon/icon-512.png', SITE.url).href,
+  email: SITE.email,
+};
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={SITE.descricao} />
+    <meta name="theme-color" content="#F3EEE3" />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={SITE.nome} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={SITE.descricao} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={og} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Punção pentagonal da Kothar com um K, sobre fundo escuro, e o nome KOTHAR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titulo} />
+    <meta name="twitter:description" content={SITE.descricao} />
+    <meta name="twitter:image" content={og} />
+
+    <link rel="preload" href="/fonts/LibreCaslonText-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/IBMPlexSans-Regular.woff2" as="font" type="font/woff2" crossorigin />
+
+    <script type="application/ld+json" set:html={JSON.stringify(ldJson)} />
+    {medicaoId && <script is:inline async src="/medir.js" data-site={medicaoId}></script>}
+    <noscript><link rel="stylesheet" href="/nojs.css" /></noscript>
+</head>
+  <body>
+    <a class="skip" href="#conteudo">Ir para o conteúdo</a>
+    <Relevo />
+    <slot />
+  </body>
+</html>

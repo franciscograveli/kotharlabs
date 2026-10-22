@@ -1,0 +1,65 @@
+---
+import { mailto } from '../data/site';
+
+const paineis = [
+  {
+    rotulo: 'Startups',
+    titulo: 'Você tem a ideia e pouca janela.',
+    texto: 'Capital curto, prazo curto, dúvida grande. A gente corta o que não prova a hipótese e entrega o que prova, com base técnica para crescer sem reescrever do zero.',
+    itens: [
+      'MVP no menor caminho até o primeiro usuário real',
+      'Código seu, documentado, sem refém de fornecedor',
+      'Arquitetura que aguenta o dia seguinte ao lançamento',
+    ],
+    cta: 'Falar sobre o MVP',
+    assunto: 'MVP',
+  },
+  {
+    rotulo: 'Empresas',
+    titulo: 'Seu processo roda em planilha e boa vontade.',
+    texto: 'Ferramenta pronta obriga a empresa a se dobrar. Sob medida faz o contrário: o sistema aprende o seu jeito de trabalhar e tira o retrabalho do caminho.',
+    itens: [
+      'Sistemas internos, portais e integrações sob medida',
+      'Saída da planilha e do legado sem parar a operação',
+      'Treinamento e suporte depois que entra no ar',
+    ],
+    cta: 'Falar sobre o sistema',
+    assunto: 'Sistema sob medida',
+  },
+];
+---
+<section id="paraquem" class="secao">
+  <div class="wrap sec-pad conteudo">
+    <div class="cabeca">
+      <span class="eyebrow">Para quem</span>
+      <h2 class="h2">Cada cliente chega de um jeito. A régua é a mesma.</h2>
+    </div>
+    <div class="paineis">
+      {paineis.map((p) => (
+        <article class="panel">
+          <span class="eyebrow">{p.rotulo}</span>
+          <h3 class="titulo">{p.titulo}</h3>
+          <p>{p.texto}</p>
+          <ul>
+            {p.itens.map((i) => <li>{i}</li>)}
+          </ul>
+          <div><a class="tlink" href={mailto(p.assunto)}>{p.cta}</a></div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .secao{border-top:1px solid var(--fio-claro)}
+  .conteudo{display:flex;flex-direction:column;gap:56px}
+  .cabeca{display:flex;flex-direction:column;gap:16px;max-width:720px}
+  .paineis{display:flex;flex-wrap:wrap;gap:32px}
+  .panel{flex:1 1 440px;min-width:0;box-sizing:border-box;background:var(--linho);border-radius:4px;padding:44px 40px;display:flex;flex-direction:column;gap:24px}
+  .titulo{font-family:var(--serif);font-weight:400;font-size:32px;line-height:40px;color:var(--tinta)}
+  ul{display:flex;flex-direction:column}
+  li{border-top:1px solid var(--fio-claro);padding:14px 0}
+  li:last-child{padding-bottom:0}
+  @media (max-width:760px){
+    .panel{padding:28px 22px}
+  }
+</style>

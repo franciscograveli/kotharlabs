@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import Puncao from '../components/Puncao.astro';
+---
+<Base titulo="Página não encontrada · Kothar Labs" noindex>
+  <main id="conteudo" tabindex="-1" class="vazio">
+    <Puncao class="puncao" />
+    <p class="eyebrow">Erro 404</p>
+    <h1 class="h1">Essa página não existe.</h1>
+    <p class="texto">Pode ser um link antigo ou um erro de digitação. O resto do site está de pé.</p>
+    <a class="tlink" href="/">Voltar para o início</a>
+  </main>
+</Base>
+<style>
+  .vazio{min-height:100vh;box-sizing:border-box;padding:48px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;text-align:center}
+  .vazio :global(.puncao){width:100%;max-width:220px;height:auto;display:block;margin-bottom:8px}
+  .h1{font-family:var(--serif);font-weight:400;font-size:44px;line-height:50px;letter-spacing:-.02em;color:var(--tinta)}
+  .texto{max-width:420px;color:var(--pedra)}
+  @media (min-width:761px){
+    .h1{font-size:64px;line-height:72px}
+  }
+</style>

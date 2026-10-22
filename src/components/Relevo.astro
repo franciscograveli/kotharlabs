@@ -1,0 +1,65 @@
+---
+// Filtros SVG do baixo relevo (deboss): realce por sombra, não por cor.
+// relevoL → fundos claros · relevoD → fundos escuros. Renderizado uma vez no <body>.
+---
+<svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="relevoL" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feFlood flood-color="#5a4424" flood-opacity="0.6" result="shC"></feFlood>
+      <feComposite in="shC" in2="SourceAlpha" operator="out" result="outside"></feComposite>
+      <feOffset in="outside" dx="1.1" dy="1.7" result="outShift"></feOffset>
+      <feGaussianBlur in="outShift" stdDeviation="1.1" result="outBlur"></feGaussianBlur>
+      <feComposite in="outBlur" in2="SourceAlpha" operator="in" result="innerShadow"></feComposite>
+      <feOffset in="SourceAlpha" dx="1" dy="1.5" result="hiShift"></feOffset>
+      <feComposite in="hiShift" in2="SourceAlpha" operator="out" result="hiEdge"></feComposite>
+      <feFlood flood-color="#ffffff" flood-opacity="0.9" result="hiC"></feFlood>
+      <feComposite in="hiC" in2="hiEdge" operator="in" result="highlight"></feComposite>
+      <feMerge><feMergeNode in="SourceGraphic"></feMergeNode><feMergeNode in="innerShadow"></feMergeNode><feMergeNode in="highlight"></feMergeNode></feMerge>
+    </filter>
+    <filter id="relevoD" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feFlood flood-color="#000000" flood-opacity="0.75" result="shC"></feFlood>
+      <feComposite in="shC" in2="SourceAlpha" operator="out" result="outside"></feComposite>
+      <feOffset in="outside" dx="1.1" dy="1.7" result="outShift"></feOffset>
+      <feGaussianBlur in="outShift" stdDeviation="1.1" result="outBlur"></feGaussianBlur>
+      <feComposite in="outBlur" in2="SourceAlpha" operator="in" result="innerShadow"></feComposite>
+      <feOffset in="SourceAlpha" dx="1" dy="1.5" result="hiShift"></feOffset>
+      <feComposite in="hiShift" in2="SourceAlpha" operator="out" result="hiEdge"></feComposite>
+      <feFlood flood-color="#f2dfc4" flood-opacity="0.4" result="hiC"></feFlood>
+      <feComposite in="hiC" in2="hiEdge" operator="in" result="highlight"></feComposite>
+      <feMerge><feMergeNode in="SourceGraphic"></feMergeNode><feMergeNode in="innerShadow"></feMergeNode><feMergeNode in="highlight"></feMergeNode></feMerge>
+    </filter>
+  </defs>
+</svg>
+<script>
+  // Relevo vivo: só a intensidade da sombra/brilho varia (±7,5%) com o ponteiro; a luz vem sempre do canto superior esquerdo.
+  const fino = matchMedia('(hover:hover) and (pointer:fine)').matches && !matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if (fino)
+    document.querySelectorAll<SVGSVGElement>('svg[data-vivo]').forEach((svg, n) => {
+      const g = svg.querySelector('g[filter]')!;
+      const base = document.getElementById(g.getAttribute('filter')!.slice(5, -1))!;
+      const f = base.cloneNode(true) as SVGFilterElement;
+      f.id += 'v' + n;
+      base.parentNode!.append(f);
+      g.setAttribute('filter', `url(#${f.id})`);
+      const fl = [...f.querySelectorAll('feFlood')].map((e) => [e, +e.getAttribute('flood-opacity')!] as const);
+      const secao = svg.closest('section')!;
+      let x = 0, y = 0, ag = false;
+      const ajustar = (k: number) => fl.forEach(([e, o]) => e.setAttribute('flood-opacity', String(+(o * k).toFixed(3))));
+      const frame = () => {
+        ag = false;
+        const r = svg.getBoundingClientRect();
+        const d = Math.hypot(x - r.left - r.width / 2, y - r.top - r.height / 2);
+        ajustar(1.075 - 0.15 * Math.min(1, d / 700));
+      };
+      secao.addEventListener('pointermove', (e) => {
+        if (e.pointerType !== 'mouse') return;
+        x = e.clientX;
+        y = e.clientY;
+        if (!ag) ag = !!requestAnimationFrame(frame);
+      });
+      secao.addEventListener('pointerleave', () => ajustar(1));
+    });
+</script>
+<style>
+  .defs{position:absolute}
+</style>

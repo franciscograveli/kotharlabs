@@ -1,0 +1,43 @@
+---
+import Grao from './Grao.astro';
+import Puncao from './Puncao.astro';
+
+const principios = [
+  { frase: 'Dizemos o que não dá.', nota: 'Antes de cobrar, não depois.' },
+  { frase: 'O código é seu.', nota: 'Sem refém, sem cláusula escondida.' },
+  { frase: 'Preço antes de começar.', nota: 'E a gente revisa o próprio código. Duas vezes.' },
+];
+---
+<section id="oficio" class="dark oficio">
+  <Grao id="gr2" matriz="0 0 0 0 0.92  0 0 0 0 0.85  0 0 0 0 0.72  0 0 0 0.07 0" />
+  <div class="wrap sec-pad conteudo">
+    <div class="texto">
+      <span class="eyebrow">Ofício</span>
+      <h2 class="h2">Feito com ofício.</h2>
+      <p class="lead">O nome vem do artesão: Kothar-wa-Khasis, o deus ferreiro da mitologia ugarítica. A gente herdou a mania. Acabamento importa, inclusive onde ninguém vai olhar.</p>
+      <ul>
+        {principios.map((p) => (
+          <li><span class="frase">{p.frase}</span><span class="nota">{p.nota}</span></li>
+        ))}
+      </ul>
+    </div>
+    <div class="selo">
+      <Puncao tom="escuro" class="puncao" vivo />
+    </div>
+  </div>
+</section>
+<style>
+  .oficio{position:relative;overflow:hidden;background:var(--forja);color:var(--osso)}
+  .conteudo{display:flex;flex-wrap:wrap;align-items:center;gap:64px}
+  .texto{flex:1 1 480px;min-width:0;max-width:600px;display:flex;flex-direction:column;gap:28px}
+  .eyebrow{color:var(--areia)}
+  .h2{color:var(--osso)}
+  .lead{font-size:18px;line-height:28px;color:var(--osso)}
+  ul{display:flex;flex-direction:column}
+  li{border-top:1px solid var(--fio-escuro);padding:16px 0;display:flex;gap:20px;align-items:baseline}
+  li:last-child{border-bottom:1px solid var(--fio-escuro)}
+  .frase{font-family:var(--serif);font-size:24px;line-height:32px;color:var(--osso);flex:0 0 240px}
+  .nota{color:var(--areia)}
+  .selo{flex:1 1 320px;min-width:0;display:flex;justify-content:center}
+  .selo :global(.puncao){width:100%;max-width:440px;height:auto;display:block}
+</style>

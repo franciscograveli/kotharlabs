@@ -1,0 +1,96 @@
+---
+const perguntas = [
+  { id: 'duvidas-projeto-pequeno', p: 'Vocês aceitam projeto pequeno?', r: 'Aceitamos o que faz sentido. Se a melhor resposta for uma planilha bem feita, a gente diz isso e você economiza.' },
+  { id: 'duvidas-codigo', p: 'De quem é o código no final?', r: 'Seu. Código, acessos e documentação são entregues ao final. Você pode seguir com a gente ou levar para outro time, sem atrito.' },
+  { id: 'duvidas-conversa-tecnica', p: 'Dá para começar só com uma conversa técnica?', r: 'Dá, e muita gente começa assim. Uma consultoria curta ajuda a decidir o que construir antes de gastar com o que não precisava existir.' },
+];
+---
+<section id="duvidas">
+  <div class="wrap sec-pad conteudo">
+    <div class="cabeca">
+      <span class="eyebrow">Perguntas</span>
+      <h2 class="h2">Perguntas diretas.</h2>
+      <p class="sub">Respostas na mesma medida.</p>
+    </div>
+    <div class="faq">
+      {perguntas.map((q) => (
+        <details id={q.id}>
+          <summary>
+            <span class="h3">{q.p}</span>
+            <svg class="plus" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10 H17" stroke="#a4501f" stroke-width="2" fill="none"></path><path class="v" d="M10 3 V17" stroke="#a4501f" stroke-width="2" fill="none"></path></svg>
+          </summary>
+          <div class="resp"><p>{q.r}</p></div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+<script>
+  const rm = matchMedia('(prefers-reduced-motion:reduce)');
+  const nativo = CSS.supports('interpolate-size', 'allow-keywords') && CSS.supports('selector(::details-content)');
+  const ds = document.querySelectorAll<HTMLDetailsElement>('#duvidas details');
+
+  // sem ::details-content + interpolate-size: anima a resposta com WAAPI
+  if (!nativo) {
+    const anim = new WeakMap<Element, Animation>();
+    ds.forEach((d) =>
+      d.querySelector('summary')!.addEventListener('click', (e) => {
+        if (rm.matches) return;
+        e.preventDefault();
+        const r = d.querySelector<HTMLElement>('.resp')!;
+        const abrir = !d.open || !!d.dataset.f;
+        const h0 = d.open ? r.offsetHeight : 0;
+        const o0 = d.open ? +getComputedStyle(r).opacity : 0;
+        anim.get(d)?.cancel();
+        if (abrir) {
+          d.open = true;
+          delete d.dataset.f;
+        } else d.dataset.f = '1';
+        const a = r.animate(
+          { height: [h0 + 'px', (abrir ? r.scrollHeight : 0) + 'px'], opacity: [o0, +abrir] },
+          { duration: 220, easing: 'ease-out', fill: 'forwards' },
+        );
+        anim.set(d, a);
+        a.onfinish = () => {
+          if (!abrir) {
+            d.open = false;
+            delete d.dataset.f;
+          }
+          a.cancel();
+        };
+      }),
+    );
+  }
+
+  // #duvidas-xyz abre a pergunta
+  const alvo = () => {
+    const d = document.querySelector(':target')?.closest('details');
+    if (d && !d.open) d.open = true;
+  };
+  alvo();
+  addEventListener('hashchange', alvo);
+</script>
+<style>
+  .conteudo{display:flex;flex-wrap:wrap;gap:64px}
+  .cabeca{flex:1 1 300px;min-width:0;max-width:380px;display:flex;flex-direction:column;gap:16px;align-self:flex-start}
+  .sub{color:var(--pedra)}
+  .faq{flex:2 1 560px;min-width:0;display:flex;flex-direction:column}
+  details{border-top:1px solid var(--fio-claro);padding:24px 0}
+  details:last-child{border-bottom:1px solid var(--fio-claro)}
+  summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:24px}
+  summary::-webkit-details-marker{display:none}
+  .plus{flex:0 0 20px}
+  .v{transform-box:fill-box;transform-origin:center;transition:transform .22s ease-out}
+  details[open]:not([data-f]) .v{transform:rotate(90deg)}
+  .resp{overflow:hidden}
+  details p{margin:16px 0 0;max-width:620px}
+  @supports (interpolate-size:allow-keywords) and selector(::details-content){
+    details{interpolate-size:allow-keywords}
+    details::details-content{height:0;opacity:0;overflow:clip;transition:height .22s ease-out,opacity .22s ease-out,content-visibility .22s allow-discrete}
+    details[open]::details-content{height:auto;opacity:1}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .v{transition:none}
+    details::details-content{transition:none}
+  }
+</style>

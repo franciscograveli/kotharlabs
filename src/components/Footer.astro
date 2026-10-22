@@ -1,0 +1,59 @@
+---
+import Puncao from './Puncao.astro';
+import { SITE } from '../data/site';
+// CNPJ ainda não existe: quando existir, entra no fim da linha legal abaixo (ver TODO.md). Hoje nada é exibido.
+---
+<footer class="footer">
+  <div class="wrap conteudo">
+    <div class="topo">
+      <div class="marca">
+        <Puncao class="puncao" />
+        <span class="word">KOTHAR</span>
+        <span class="labs"><span class="fio"></span>LABS<span class="fio"></span></span>
+      </div>
+      <div class="cols">
+        <div class="col">
+          <span class="eyebrow">Navegação</span>
+          <a class="hit" href="#paraquem">Para quem</a>
+          <a class="hit" href="#servicos">Serviços</a>
+          <a class="hit" href="#como">Como trabalhamos</a>
+          <a class="hit" href="#duvidas">Perguntas</a>
+        </div>
+        <div class="col">
+          <span class="eyebrow">Contato</span>
+          <a class="hit" href={`mailto:${SITE.email}`}>{SITE.email}</a>
+          <span class="pedra">tecnoPARQ UFV · com a Drivou</span>
+        </div>
+      </div>
+    </div>
+    <div class="legal">
+      <span>Kothar Labs · kotharlabs.com · © 2026</span>
+      <a class="hit" href="/privacidade">Privacidade</a>
+    </div>
+  </div>
+</footer>
+<style>
+  .footer{position:relative;background:var(--papel)}
+  .conteudo{padding-top:72px;padding-bottom:40px;display:flex;flex-direction:column;gap:56px}
+  .topo{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:48px}
+  .marca{display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+  .marca :global(.puncao){width:112px;height:auto;display:block}
+  .word{font-family:var(--serif);font-size:20px;line-height:24px;letter-spacing:.3em;color:var(--tinta)}
+  .labs{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:11px;line-height:16px;letter-spacing:.3em;color:var(--pedra)}
+  .fio{display:block;width:20px;height:1.5px;background:var(--cobre)}
+  .cols{display:flex;flex-wrap:wrap;gap:56px}
+  .col{display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:20px}
+  .col a{text-decoration:none}
+  .col .eyebrow{padding-bottom:6px}
+  .pedra{color:var(--pedra)}
+  .legal{border-top:1px solid var(--fio-claro);padding-top:20px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:11px;line-height:16px;color:var(--pedra)}
+  .legal a{text-decoration:underline;text-underline-offset:4px}
+  @media (max-width:760px){
+    .topo{flex-direction:column;align-items:center;text-align:center}
+    .marca{align-items:center}
+    /* colunas centralizadas como bloco, texto alinhado à esquerda */
+    .cols{justify-content:center;text-align:left;gap:40px}
+    .col{align-items:flex-start}
+    .legal{justify-content:center;text-align:center;flex-direction:column;align-items:center}
+  }
+</style>

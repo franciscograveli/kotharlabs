@@ -1,0 +1,35 @@
+# Só para teste local: publica o site em 127.0.0.1:8081 e troca o SMTP por um Mailpit (nada sai da máquina).
+#   docker compose -f docker-compose.yml -f docker-compose.local.yml up --build
+# Caixa de entrada de teste: http://127.0.0.1:8025
+services:
+  umami:
+    ports:
+      - "127.0.0.1:3001:3000"   # painel do Umami, só na sua máquina
+    # redes internas não publicam portas: só no teste local o Umami entra também na rede padrão
+    networks: [medicao, banco, default]
+    environment:
+      DATABASE_URL: postgresql://umami:teste-local@umami-db:5432/umami
+      APP_SECRET: segredo-so-para-teste-local
+  umami-db:
+    environment:
+      POSTGRES_PASSWORD: teste-local
+    # teste local: dados em memória (somem ao derrubar). Sem isso, o volume nomeado do compose base é usado.
+    volumes: !override []
+    tmpfs:
+      - /var/lib/postgresql/data
+  kotharlabs:
+    ports:
+      - "127.0.0.1:8081:8080"
+  contato-api:
+    environment:
+      SMTP_HOST: mailpit
+      SMTP_PORT: "1025"
+      SMTP_SECURE: "false"
+      SMTP_USER: ""
+      SMTP_PASS: ""
+      MAIL_TO: contato@kotharlabs.com
+      MAIL_FROM: "Site Kothar <site@kotharlabs.com>"
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "127.0.0.1:8025:8025"

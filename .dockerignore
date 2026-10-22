@@ -1,0 +1,17 @@
+node_modules
+dist
+.astro
+.git
+.github
+referencia
+assets
+fonts
+*.md
+.env
+.env.*
+!.env.example
+contato-api
+*.log
+.DS_Store
+Dockerfile
+docker-compose*.yml

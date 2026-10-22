@@ -1,0 +1,32 @@
+---
+const passos = [
+  { n: '1', titulo: 'Conversa', texto: 'Você conta a ideia. A gente pergunta o que incomoda e diz, sem rodeio, o que não vale construir.' },
+  { n: '2', titulo: 'Proposta fechada', texto: 'Escopo, prazo e valor no papel antes da primeira linha de código. Orçamento honesto. Prazo idem.' },
+  { n: '3', titulo: 'Construção', texto: 'Entregas curtas e visíveis. Você acompanha o produto crescendo, não um relatório sobre ele.' },
+  { n: '4', titulo: 'Entrega', texto: 'Código, acessos e documentação são seus. Se quiser seguir com a gente, ótimo. Se não, também.' },
+];
+---
+<section id="como">
+  <div class="wrap sec-pad conteudo">
+    <div class="cabeca">
+      <span class="eyebrow">Como trabalhamos</span>
+      <h2 class="h2">Quatro passos. Sem surpresa no meio.</h2>
+    </div>
+    <div class="passos">
+      {passos.map((p) => (
+        <div class="passo">
+          <span class="n">{p.n}</span>
+          <h3 class="h3">{p.titulo}</h3>
+          <p>{p.texto}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .conteudo{display:flex;flex-direction:column;gap:56px}
+  .cabeca{display:flex;flex-direction:column;gap:16px;max-width:720px}
+  .passos{display:flex;flex-wrap:wrap;gap:40px 32px}
+  .passo{flex:1 1 240px;min-width:0;display:flex;flex-direction:column;gap:14px;border-top:2px solid var(--tinta);padding-top:20px}
+  .n{font-family:var(--serif);font-size:32px;line-height:40px;color:var(--cobre)}
+</style>

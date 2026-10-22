@@ -1,0 +1,114 @@
+---
+import { mailto } from '../data/site';
+// fora = páginas internas: âncoras e marca apontam para a home
+interface Props { fora?: boolean }
+const { fora = false } = Astro.props;
+const h = fora ? '/' : '';
+---
+<header class="header">
+  <div class="wrap bar">
+    <a href={`${h}#topo`} class="brand" aria-label="Kothar Labs, início">
+      <svg width="44" height="42" viewBox="68 8 184 176" aria-hidden="true" focusable="false"><path d="M160 20 L239.89 78.04 L209.37 171.96 L110.63 171.96 L80.11 78.04 Z" fill="none" stroke="#1C1B19" stroke-width="6" stroke-linejoin="round"></path><path d="M160 38 L222.77 83.6 L198.79 157.4 L121.21 157.4 L97.23 83.6 Z" fill="none" stroke="#A4501F" stroke-width="1.8" stroke-linejoin="round"></path><circle cx="160" cy="29" r="2.6" fill="#A4501F"></circle><circle cx="231.33" cy="80.82" r="2.6" fill="#A4501F"></circle><circle cx="204.08" cy="164.68" r="2.6" fill="#A4501F"></circle><circle cx="115.92" cy="164.68" r="2.6" fill="#A4501F"></circle><circle cx="88.67" cy="80.82" r="2.6" fill="#A4501F"></circle><g fill="#1C1B19"><path transform="translate(135.79 126) scale(0.06 -0.06)" d="M127 58V713L42 733V770H383V733L299 713V416L539 674Q553 688 553 705Q553 719 534 725.5Q515 732 476 734V770H763V733Q694 722 667 710.5Q640 699 615 671L439 479L743 56L834 37V0H567L321 351L299 328V58L383 37V0H42V37Z"></path></g></svg>
+      <span class="lockup">
+        <span class="word">KOTHAR</span>
+        <span class="labs"><span class="fio"></span>LABS<span class="fio"></span></span>
+      </span>
+    </a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu-painel">Menu</button>
+    <div class="painel" id="menu-painel">
+      <nav class="nav" aria-label="Principal">
+        <a class="hit" href={`${h}#paraquem`}>Para quem</a>
+        <a class="hit" href={`${h}#servicos`}>Serviços</a>
+        <a class="hit" href={`${h}#como`}>Como trabalhamos</a>
+        <a class="hit" href={`${h}#duvidas`}>Perguntas</a>
+      </nav>
+      <a class="btn btn-primary" href={mailto()} data-evento="botao-contato" data-onde="cabecalho">Falar com a Kothar</a>
+    </div>
+  </div>
+</header>
+<script>
+  const h = document.querySelector<HTMLElement>('.header')!;
+  const b = h.querySelector<HTMLButtonElement>('.menu-btn')!;
+  const p = h.querySelector<HTMLElement>('.painel')!;
+  const raiz = document.documentElement;
+  const aberto = () => b.getAttribute('aria-expanded') === 'true';
+
+  // menu do celular: abre/fecha, trava o fundo, devolve o foco
+  const abrir = (sim: boolean, voltar = false) => {
+    b.setAttribute('aria-expanded', String(sim));
+    h.classList.toggle('aberto', sim);
+    raiz.classList.toggle('menu-aberto', sim);
+    document.querySelectorAll<HTMLElement>('main, footer').forEach((e) => (e.inert = sim));
+    if (!sim && voltar) {
+      // a navegação para a âncora tira o foco do botão (Firefox, depois do hashchange): devolve de novo
+      const f = () => b.focus({ preventScroll: true });
+      f();
+      addEventListener('hashchange', () => setTimeout(f), { once: true });
+    }
+  };
+  b.addEventListener('click', () => abrir(!aberto()));
+  p.addEventListener('click', (e) => {
+    if ((e.target as Element).closest('a') && aberto()) abrir(false, true);
+  });
+  document.addEventListener('click', (e) => {
+    if (aberto() && !h.contains(e.target as Node)) abrir(false);
+  });
+  matchMedia('(max-width:760px)').addEventListener('change', () => abrir(false));
+  document.addEventListener('keydown', (e) => {
+    if (!aberto()) return;
+    if (e.key === 'Escape') return abrir(false, true);
+    if (e.key !== 'Tab') return;
+    // foco preso: botão + links do painel, em ciclo
+    const f = [b, ...p.querySelectorAll<HTMLElement>('a')];
+    const i = f.indexOf(document.activeElement as HTMLElement);
+    const n = e.shiftKey ? (i < 1 ? f.length - 1 : i - 1) : i === f.length - 1 ? 0 : i + 1;
+    e.preventDefault();
+    f[n].focus();
+  });
+
+  // fio na base só depois de rolar; altura real para o scroll-margin das âncoras
+  const rolar = () => h.classList.toggle('rolou', scrollY > 8);
+  addEventListener('scroll', rolar, { passive: true });
+  rolar();
+  new ResizeObserver(() => raiz.style.setProperty('--header-h', h.offsetHeight + 'px')).observe(h);
+
+  // link da seção atual
+  const links = new Map([...h.querySelectorAll<HTMLAnchorElement>('.nav a')].map((a) => [a.hash.slice(1), a]));
+  const io = new IntersectionObserver(
+    (es) =>
+      es.forEach((e) => {
+        if (!e.isIntersecting) return;
+        links.forEach((a) => a.removeAttribute('aria-current'));
+        links.get(e.target.id)?.setAttribute('aria-current', 'location');
+      }),
+    { rootMargin: '-40% 0px -55% 0px' },
+  );
+  document.querySelectorAll('main > section[id]').forEach((s) => io.observe(s));
+</script>
+<style>
+  .header{position:sticky;top:0;z-index:20;background:var(--papel);border-bottom:1px solid var(--fio-claro)}
+  .bar{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-top:20px;padding-bottom:20px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+  .lockup{display:flex;flex-direction:column;align-items:center;gap:3px}
+  .word{font-family:var(--serif);font-size:20px;line-height:24px;letter-spacing:.3em;padding-left:.3em;color:var(--tinta)}
+  .labs{display:flex;align-items:center;gap:8px;font-family:var(--serif);font-size:9px;line-height:12px;letter-spacing:.3em;color:var(--pedra)}
+  .fio{display:block;width:16px;height:1.5px;background:var(--cobre)}
+  .painel{display:contents}
+  .menu-btn{display:none}
+  .nav{display:flex;align-items:center;gap:32px;font-size:14px;line-height:20px;font-weight:500}
+  .nav a{text-decoration:none}
+  .nav a:hover,.nav a[aria-current]{text-decoration:underline;text-decoration-color:var(--cobre);text-underline-offset:6px;text-decoration-thickness:2px}
+  @media (max-width:760px){
+    .header{border-bottom-color:transparent}
+    .header.rolou,.header.aberto{border-bottom-color:var(--fio-claro)}
+    .menu-btn{display:inline-flex;align-items:center;justify-content:center;height:44px;box-sizing:border-box;padding:0 20px;border:1px solid var(--tinta);border-radius:2px;background:transparent;color:var(--tinta);font-family:var(--sans);font-size:15px;font-weight:500;line-height:20px;cursor:pointer}
+    .menu-btn[aria-expanded="true"]{background:var(--linho)}
+    .painel{display:none;position:absolute;left:0;right:0;top:100%;box-sizing:border-box;padding:0 20px 24px;background:var(--papel);border-top:1px solid var(--fio-claro);border-bottom:1px solid var(--fio-claro);max-height:calc(100dvh - var(--header-h, 85px));overflow-y:auto;overscroll-behavior:contain}
+    .aberto .painel{display:block}
+    .nav{flex-direction:column;align-items:stretch;gap:0;border-bottom:1px solid var(--fio-claro);margin-bottom:24px}
+    .nav a{display:flex;align-items:center;min-height:56px;font-family:var(--serif);font-size:26px;line-height:32px;font-weight:400}
+    .nav a + a{border-top:1px solid var(--fio-claro)}
+    .nav a::after{display:none}
+    .painel .btn{display:flex;width:100%}
+  }
+</style>

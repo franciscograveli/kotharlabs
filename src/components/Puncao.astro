@@ -1,0 +1,22 @@
+---
+// Punção pentagonal em baixo relevo (usa os filtros de Relevo.astro).
+interface Props {
+  tom?: 'claro' | 'escuro';
+  class?: string;
+  label?: string;
+  vivo?: boolean;
+}
+const { tom = 'claro', class: classe, label, vivo } = Astro.props;
+// sem label = decorativo (o nome da marca já está no texto ao lado)
+const a11y = label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': 'true', focusable: 'false' };
+const cor = tom === 'claro' ? 'var(--relevo-claro)' : 'var(--relevo-escuro)';
+const filtro = tom === 'claro' ? 'url(#relevoL)' : 'url(#relevoD)';
+---
+<svg class={classe} data-vivo={vivo ? "" : undefined} viewBox="64 8 192 176" {...a11y}>
+  <g filter={filtro}>
+    <path d="M160 20 L239.89 78.04 L209.37 171.96 L110.63 171.96 L80.11 78.04 Z" fill="none" stroke={cor} stroke-width="6" stroke-linejoin="round"></path>
+    <path d="M160 38 L222.77 83.6 L198.79 157.4 L121.21 157.4 L97.23 83.6 Z" fill="none" stroke={cor} stroke-width="1.8" stroke-linejoin="round"></path>
+    <circle cx="160" cy="29" r="2.6" fill={cor}></circle><circle cx="231.33" cy="80.82" r="2.6" fill={cor}></circle><circle cx="204.08" cy="164.68" r="2.6" fill={cor}></circle><circle cx="115.92" cy="164.68" r="2.6" fill={cor}></circle><circle cx="88.67" cy="80.82" r="2.6" fill={cor}></circle>
+    <path fill={cor} transform="translate(135.79 126) scale(0.06 -0.06)" d="M127 58V713L42 733V770H383V733L299 713V416L539 674Q553 688 553 705Q553 719 534 725.5Q515 732 476 734V770H763V733Q694 722 667 710.5Q640 699 615 671L439 479L743 56L834 37V0H567L321 351L299 328V58L383 37V0H42V37Z"></path>
+  </g>
+</svg>

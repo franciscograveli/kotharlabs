@@ -1,0 +1,194 @@
+---
+import { Image } from 'astro:assets';
+import drivou from '../assets/clientes/drivou-icone.png';
+import tecnoparq from '../assets/clientes/tecnoparq-branco.png';
+import { mailto } from '../data/site';
+
+// Logos da Bemtevy e da Bubu & Dudu são provisórios (SVG simples): trocar pelos originais.
+const bemtevy = `<svg width="72" height="72" viewBox="0 0 72 72" role="img" aria-label="Logo da Bemtevy"><circle cx="36" cy="36" r="31" fill="#e3ad2b"/><path d="M5 36a31 31 0 0 1 62 0z" fill="#2a2724"/><rect x="5" y="30" width="62" height="5" fill="#f3eee3"/><circle cx="27" cy="22" r="3" fill="#f3eee3"/><path d="M60 30l10 3-10 4z" fill="#a4501f"/></svg>`;
+const bubuDudu = `<svg width="84" height="72" viewBox="0 0 84 72" role="img" aria-label="Logo da Bubu e Dudu"><circle cx="28" cy="36" r="24" fill="#d9694a"/><circle cx="56" cy="36" r="24" fill="#3e8e8a" fill-opacity="0.9"/><circle cx="21" cy="31" r="3" fill="#1c1b19"/><circle cx="35" cy="31" r="3" fill="#1c1b19"/><circle cx="49" cy="31" r="3" fill="#1c1b19"/><circle cx="63" cy="31" r="3" fill="#1c1b19"/></svg>`;
+
+const clientes = [
+  { nome: 'Drivou', texto: 'Plataforma que conecta alunos a instrutores de direção independentes e verificados.', href: 'https://drivou.com', dominio: 'drivou.com', logo: 'drivou' },
+  { nome: 'Bemtevy', texto: 'Plataforma de RH para recrutamento e seleção, testes psicológicos e gestão de pessoas.', href: 'https://bemtevy.com', dominio: 'bemtevy.com', logo: bemtevy },
+  { nome: 'Bubu & Dudu', texto: 'Snack Mission: jogo cooperativo de puzzle para dois jogadores, direto no navegador.', href: 'https://bubududu.fun', dominio: 'bubududu.fun', logo: bubuDudu },
+];
+---
+<section id="parceiros" class="secao">
+  <div class="wrap sec-pad sec-pad-80 conteudo">
+    <div class="topo">
+      <div class="cabeca">
+        <span class="eyebrow">Clientes e parceiros</span>
+        <h2 class="h2">Onde o ofício já está em uso.</h2>
+      </div>
+      <div class="setas" data-car-setas>
+        <button type="button" class="seta" data-car-prev aria-label="Cliente anterior">
+          <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4 L6.5 10 L12.5 16" stroke="currentColor" stroke-width="2" fill="none"></path></svg>
+        </button>
+        <button type="button" class="seta" data-car-next aria-label="Próximo cliente">
+          <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 4 L13.5 10 L7.5 16" stroke="currentColor" stroke-width="2" fill="none"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <p class="sr-only" role="status" aria-live="polite" data-car-status></p>
+
+    <div class="car" data-car tabindex="0" role="region" aria-roledescription="carrossel" aria-label="Clientes da Kothar, use as setas do teclado ou arraste para o lado">
+      <div class="car-track">
+        {clientes.map((c) => (
+          <article class="car-card">
+            <div class="logo">
+              {c.logo === 'drivou'
+                ? <Image src={drivou} alt="Logo do Drivou" width={168} height={168} class="logo-img" draggable="false" />
+                : <Fragment set:html={c.logo} />}
+            </div>
+            <div class="info">
+              <span class="eyebrow">Cliente</span>
+              <h3 class="h3">{c.nome}</h3>
+              <p>{c.texto}</p>
+            </div>
+            <div class="rodape"><a class="tlink" href={c.href} target="_blank" rel="noopener" draggable="false">{c.dominio}</a></div>
+          </article>
+        ))}
+        <article class="car-card proximo">
+          <span class="eyebrow">Próximo</span>
+          <h3 class="titulo">O próximo pode ser o seu.</h3>
+          <div><a class="btn btn-primary" href={mailto()} draggable="false">Contar minha ideia</a></div>
+        </article>
+      </div>
+    </div>
+
+    <div class="eco">
+      <div class="eco-logo"><Image src={tecnoparq} alt="Logo tecnoPARQ UFV" width={145} height={137} class="eco-img" /></div>
+      <div class="eco-texto">
+        <span class="eyebrow">Ecossistema</span>
+        <h3 class="h3">tecnoPARQ UFV</h3>
+        <p>Parque tecnológico de Viçosa e agência de inovação da UFV, onde a Kothar atua junto com a Drivou. <a class="tlink" href="https://centev.ufv.br" target="_blank" rel="noopener">centev.ufv.br</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .secao{background:var(--linho)}
+  .conteudo{display:flex;flex-direction:column;gap:40px}
+  .topo{display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
+  .cabeca{display:flex;flex-direction:column;gap:12px;max-width:640px}
+
+  /* setas só aparecem quando o JS assume o carrossel */
+  .setas{display:none;gap:8px;flex:0 0 auto}
+  :global(.car-ativo) .setas{display:flex}
+  .seta{width:44px;height:44px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;padding:0;background:transparent;color:var(--tinta);border:1px solid var(--tinta);border-radius:2px;cursor:pointer}
+  .seta:hover:not(:disabled){background:var(--tinta);color:var(--papel)}
+  .seta:disabled{opacity:.35;cursor:default}
+
+  /* sem JS: rolagem nativa com snap (igual à referência). Com JS: Embla assume. */
+  .car{overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:20px;scrollbar-width:thin;scrollbar-color:var(--cobre) var(--fio-claro)}
+  .car-track{display:flex;gap:24px}
+  .car-card{flex:0 0 380px;min-height:360px;scroll-snap-align:start;box-sizing:border-box;background:var(--papel);border-radius:4px;padding:28px;display:flex;flex-direction:column;gap:20px}
+  :global(.car-ativo) .car{overflow:hidden;scroll-snap-type:none;cursor:grab;touch-action:pan-y pinch-zoom}
+  :global(.car-ativo) .car:active{cursor:grabbing}
+  :global(.car-ativo) .car-card{user-select:none;-webkit-user-select:none}
+
+  .logo{height:112px;box-sizing:border-box;background:var(--linho);border-radius:2px;display:flex;align-items:center;justify-content:center}
+  .logo-img{height:84px;width:auto;display:block;-webkit-user-drag:none}
+  .info{display:flex;flex-direction:column;gap:8px}
+  .rodape{margin-top:auto}
+  .proximo{background:transparent;border:1px solid var(--tinta);justify-content:space-between}
+  .titulo{font-family:var(--serif);font-weight:400;font-size:32px;line-height:40px;color:var(--tinta)}
+
+  .eco{border-top:1px solid var(--fio-claro);padding-top:32px;display:flex;flex-wrap:wrap;align-items:center;gap:32px}
+  .eco-logo{flex:0 0 220px;height:88px;box-sizing:border-box;background:var(--forja);border-radius:2px;display:flex;align-items:center;justify-content:center}
+  .eco-img{height:60px;width:auto;display:block}
+  .eco-texto{flex:1 1 360px;min-width:0;display:flex;flex-direction:column;gap:6px}
+
+  @media (max-width:760px){
+    .car-card{flex:0 0 calc((100% - 24px) / 1.5)}
+    /* no toque o arrastar basta; setas não disputam espaço com o título */
+    :global(.car-ativo) .setas{display:none}
+  }
+</style>
+
+<script>
+  // Embla (vanilla) só é baixado quando a seção está perto da viewport.
+  // Sem JS (ou antes do carregamento) vale a rolagem nativa com snap.
+  const root = document.querySelector<HTMLElement>('[data-car]');
+  const setas = document.querySelector<HTMLElement>('[data-car-setas]');
+  const prev = document.querySelector<HTMLButtonElement>('[data-car-prev]');
+  const next = document.querySelector<HTMLButtonElement>('[data-car-next]');
+  const status = document.querySelector<HTMLElement>('[data-car-status]');
+
+  async function iniciar() {
+    if (!root || !setas || !prev || !next || !status) return;
+    const { default: Embla } = await import('embla-carousel');
+    const reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const total = root.querySelectorAll('.car-card').length;
+
+    document.documentElement.classList.add('car-ativo');
+    const embla = Embla(root, {
+      align: 'start',
+      containScroll: 'trimSnaps',
+      inViewThreshold: 0.6,
+      // reduced motion: snap direto, sem animação nem inércia
+      duration: reduz ? 0 : 28,
+    });
+
+    let interagiu = false;
+    const anunciar = () => {
+      const vis = embla.slidesInView();
+      if (!vis.length) return;
+      const a = vis[0] + 1;
+      const b = vis[vis.length - 1] + 1;
+      status.textContent = a === b ? `Cliente ${a} de ${total}` : `Clientes ${a} a ${b} de ${total}`;
+    };
+    const atualizar = () => {
+      setas.style.display = embla.scrollSnapList().length > 1 ? '' : 'none';
+      prev.disabled = !embla.canScrollPrev();
+      next.disabled = !embla.canScrollNext();
+    };
+    embla.on('init', atualizar).on('reInit', atualizar).on('select', atualizar).on('resize', atualizar);
+    embla.on('pointerDown', () => { interagiu = true; });
+    // anuncia só quando o carrossel assenta, com o estado final
+    embla.on('settle', () => { if (interagiu) anunciar(); });
+    atualizar();
+
+    prev.addEventListener('click', () => { interagiu = true; embla.scrollPrev(); });
+    next.addEventListener('click', () => { interagiu = true; embla.scrollNext(); });
+
+    root.addEventListener('keydown', (e) => {
+      if (e.target !== root) return;
+      const k = e.key;
+      if (k !== 'ArrowLeft' && k !== 'ArrowRight' && k !== 'Home' && k !== 'End') return;
+      e.preventDefault();
+      interagiu = true;
+      if (k === 'ArrowLeft') embla.scrollPrev();
+      else if (k === 'ArrowRight') embla.scrollNext();
+      else embla.scrollTo(k === 'Home' ? 0 : embla.scrollSnapList().length - 1);
+    });
+
+    // Roda/trackpad na horizontal: um gesto = um cartão. Rolagem vertical segue a página.
+    let travado = false;
+    let solta: number | undefined;
+    root.addEventListener('wheel', (e) => {
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      e.preventDefault();
+      clearTimeout(solta);
+      solta = window.setTimeout(() => { travado = false; }, 140); // fim da inércia do trackpad
+      if (travado || Math.abs(e.deltaX) < 4) return;
+      travado = true;
+      interagiu = true;
+      if (e.deltaX > 0) embla.scrollNext(); else embla.scrollPrev();
+    }, { passive: false });
+  }
+
+  if (root) {
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entradas) => {
+        if (entradas.some((e) => e.isIntersecting)) { io.disconnect(); iniciar(); }
+      }, { rootMargin: '300px' });
+      io.observe(root);
+    } else {
+      iniciar();
+    }
+  }
+</script>

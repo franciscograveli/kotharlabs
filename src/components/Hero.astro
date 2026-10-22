@@ -1,0 +1,40 @@
+---
+import Grao from './Grao.astro';
+import Puncao from './Puncao.astro';
+---
+<section id="topo" class="hero">
+  <Grao id="gr1" matriz="0 0 0 0 0.35  0 0 0 0 0.27  0 0 0 0 0.14  0 0 0 0.16 0" />
+  <div class="wrap hero-pad">
+    <div class="texto">
+      <h1 class="h1">Ideias, feitas de verdade.</h1>
+      <p class="lead">Construímos software sob medida para startups que precisam validar rápido e para empresas que cansaram de se dobrar a ferramenta de prateleira. Sem enrolação. Com acabamento.</p>
+    </div>
+    <div class="selo">
+      <Puncao class="puncao" vivo />
+    </div>
+  </div>
+  <div class="wrap fecho">
+    <div class="colophon">
+      <span class="item"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 0.6 L9.4 3.8 L7.7 9.2 L2.3 9.2 L0.6 3.8 Z" fill="none" stroke="#a4501f" stroke-width="1.2" stroke-linejoin="round"></path></svg>Desenvolvimento e consultoria</span>
+      <span class="item"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 0.6 L9.4 3.8 L7.7 9.2 L2.3 9.2 L0.6 3.8 Z" fill="none" stroke="#a4501f" stroke-width="1.2" stroke-linejoin="round"></path></svg>Software sob medida</span>
+      <span class="item"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 0.6 L9.4 3.8 L7.7 9.2 L2.3 9.2 L0.6 3.8 Z" fill="none" stroke="#a4501f" stroke-width="1.2" stroke-linejoin="round"></path></svg>No tecnoPARQ UFV, com a Drivou</span>
+    </div>
+  </div>
+</section>
+<style>
+  .hero{position:relative;overflow:hidden}
+  .hero-pad{padding-top:96px;padding-bottom:40px;display:flex;flex-wrap:wrap;align-items:center;gap:48px 64px}
+  .texto{flex:1 1 560px;min-width:0;max-width:700px;display:flex;flex-direction:column;gap:32px}
+  .h1{font-family:var(--serif);font-weight:400;font-size:84px;line-height:88px;letter-spacing:-.02em;color:var(--tinta)}
+  .lead{font-size:18px;line-height:28px;color:var(--tinta);max-width:540px}
+  .selo{flex:1 1 320px;min-width:0;display:flex;justify-content:center}
+  .selo :global(.puncao){width:100%;max-width:440px;height:auto;display:block}
+  .fecho{padding-top:0;padding-bottom:36px}
+  .colophon{margin-top:24px;border-top:1px solid var(--fio-claro);padding-top:18px;display:flex;flex-wrap:wrap;gap:12px 36px;font-family:var(--mono);font-size:12px;line-height:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--pedra)}
+  .item{display:inline-flex;align-items:center;gap:10px}
+  @media (max-width:760px){
+    .h1{font-size:44px;line-height:50px}
+    .hero-pad{padding-top:40px;padding-bottom:56px}
+    .colophon{flex-direction:column}
+  }
+</style>

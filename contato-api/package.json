@@ -1,0 +1,16 @@
+{
+  "name": "contato-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Recebe o formulário de contato do kotharlabs.com e envia por SMTP. Sem banco, sem disco.",
+  "scripts": {
+    "start": "node server.mjs",
+    "verify": "node verify.mjs"
+  },
+  "dependencies": {
+    "nodemailer": "^7.0.0"
+  },
+  "engines": { "node": ">=22" },
+  "packageManager": "pnpm@11.5.2"
+}

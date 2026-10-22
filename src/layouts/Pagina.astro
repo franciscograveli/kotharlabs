@@ -1,0 +1,22 @@
+---
+// Páginas internas (obrigado, privacidade...): cabeçalho do site + conteúdo, sem as seções da home.
+import Base from './Base.astro';
+import Header from '../components/Header.astro';
+
+interface Props { titulo: string; noindex?: boolean }
+const { titulo, noindex = true } = Astro.props;
+---
+<Base titulo={titulo} noindex={noindex}>
+  <Header fora />
+  <main id="conteudo" tabindex="-1">
+    <div class="wrap pagina">
+      <slot />
+    </div>
+  </main>
+</Base>
+<style>
+  .pagina{padding-top:96px;padding-bottom:112px;display:flex;flex-direction:column;align-items:flex-start;gap:20px;max-width:760px;margin:0 auto}
+  @media (max-width:760px){
+    .pagina{padding-top:48px;padding-bottom:64px}
+  }
+</style>

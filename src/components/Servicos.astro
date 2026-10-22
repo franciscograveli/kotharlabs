@@ -1,0 +1,42 @@
+---
+const servicos = [
+  { n: '01', titulo: 'Desenvolvimento sob medida', texto: 'Web, mobile e integrações. Do protótipo ao produto em produção.' },
+  { n: '02', titulo: 'MVP e validação', texto: 'Escopo enxuto e entrega rápida, para a próxima decisão vir de uso real e não de opinião.' },
+  { n: '03', titulo: 'Consultoria técnica', texto: 'Arquitetura, revisão de código e escolha de stack. Uma segunda opinião antes de gastar a primeira vez.' },
+  { n: '04', titulo: 'Sustentação e evolução', texto: 'Monitoramento, correções e novas funcionalidades depois do lançamento. A gente acompanha o que entrega e sabe o que vem depois.' },
+];
+---
+<section id="servicos" class="secao">
+  <div class="wrap sec-pad sec-pad-80 conteudo">
+    <div class="cabeca">
+      <span class="eyebrow">Serviços</span>
+      <h2 class="h2">O que a gente faz bem.</h2>
+      <p class="sub">Poucas coisas, feitas com cuidado. O resto a gente indica ou recusa.</p>
+    </div>
+    <div class="lista">
+      {servicos.map((s) => (
+        <div class="svc-row">
+          <span class="num">{s.n}</span>
+          <h3 class="h3 nome">{s.titulo}</h3>
+          <p class="desc">{s.texto}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .secao{border-top:1px solid var(--fio-claro)}
+  .conteudo{display:flex;flex-direction:column;gap:40px}
+  .cabeca{display:flex;flex-direction:column;gap:12px;max-width:640px}
+  .sub{color:var(--pedra)}
+  .lista{display:flex;flex-direction:column}
+  .svc-row{display:flex;align-items:baseline;gap:24px;border-top:1px solid var(--fio-claro);padding:22px 0}
+  .svc-row:last-child{border-bottom:1px solid var(--fio-claro)}
+  .num{flex:0 0 32px;font-family:var(--mono);font-size:12px;line-height:16px;letter-spacing:.14em;color:var(--pedra)}
+  .nome{flex:0 0 340px}
+  .desc{flex:1 1 0;min-width:0}
+  @media (max-width:760px){
+    .svc-row{flex-direction:column;gap:8px}
+    .svc-row > *{flex:0 0 auto}
+  }
+</style>

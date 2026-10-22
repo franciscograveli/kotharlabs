@@ -1,0 +1,8 @@
+/* Sem JavaScript: o menu vira uma lista simples abaixo do cabeçalho. */
+@media (max-width:760px){
+  .header{position:static!important;border-bottom-color:var(--fio-claro)!important}
+  .menu-btn{display:none!important}
+  .painel{display:block!important;position:static!important;flex:0 0 100%;max-height:none!important;padding:0!important;border:0!important}
+  .nav{margin-bottom:16px!important}
+  .nav a{font-size:20px!important;min-height:48px!important}
+}
