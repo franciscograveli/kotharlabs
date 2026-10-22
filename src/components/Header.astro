@@ -21,6 +21,7 @@ const h = fora ? '/' : '';
         <a class="hit" href={`${h}#servicos`}>Serviços</a>
         <a class="hit" href={`${h}#como`}>Como trabalhamos</a>
         <a class="hit" href={`${h}#duvidas`}>Perguntas</a>
+        <a class="hit" href={`${h}#contato`}>Contato</a>
       </nav>
       <a class="btn btn-primary" href={mailto()} data-evento="botao-contato" data-onde="cabecalho">Falar com a Kothar</a>
     </div>
@@ -53,7 +54,7 @@ const h = fora ? '/' : '';
   document.addEventListener('click', (e) => {
     if (aberto() && !h.contains(e.target as Node)) abrir(false);
   });
-  matchMedia('(max-width:760px)').addEventListener('change', () => abrir(false));
+  matchMedia('(max-width:999px)').addEventListener('change', () => abrir(false));
   document.addEventListener('keydown', (e) => {
     if (!aberto()) return;
     if (e.key === 'Escape') return abrir(false, true);
@@ -98,7 +99,7 @@ const h = fora ? '/' : '';
   .nav{display:flex;align-items:center;gap:32px;font-size:14px;line-height:20px;font-weight:500}
   .nav a{text-decoration:none}
   .nav a:hover,.nav a[aria-current]{text-decoration:underline;text-decoration-color:var(--cobre);text-underline-offset:6px;text-decoration-thickness:2px}
-  @media (max-width:760px){
+  @media (max-width:999px){
     .header{border-bottom-color:transparent}
     .header.rolou,.header.aberto{border-bottom-color:var(--fio-claro)}
     .menu-btn{display:inline-flex;align-items:center;justify-content:center;height:44px;box-sizing:border-box;padding:0 20px;border:1px solid var(--tinta);border-radius:2px;background:transparent;color:var(--tinta);font-family:var(--sans);font-size:15px;font-weight:500;line-height:20px;cursor:pointer}
