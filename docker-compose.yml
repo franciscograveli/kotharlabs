@@ -116,6 +116,11 @@ services:
         # id do site criado no painel do Umami (público, vai no HTML); vazio = sem medição
         PUBLIC_UMAMI_WEBSITE_ID: ${UMAMI_WEBSITE_ID:-}
     networks: [default, medicao]
+    # No Coolify este serviço fica em 3 redes (a do recurso, default e medicao) e o Traefik só alcança a do
+    # recurso, cujo nome é o id do recurso. Sem esta label ele pode escolher o IP de outra rede e dar
+    # "Gateway Timeout". Fora do Coolify a variável fica vazia e a label é ignorada.
+    labels:
+      - traefik.docker.network=${COOLIFY_RESOURCE_UUID:-}
     restart: unless-stopped
     expose:
       - "8080"
