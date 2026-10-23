@@ -1,0 +1,5 @@
+allowBuilds:
+  # wrangler (deploy na Cloudflare): o runtime local e o empacotador precisam do script de instalação
+  esbuild: true
+  workerd: true
+  sharp: false

@@ -12,12 +12,18 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "check:links": "node scripts/check-links.mjs"
+    "check:links": "node scripts/check-links.mjs",
+    "build:cloudflare": "astro build && node scripts/gen-csp.mjs dist dist/_headers",
+    "dev:cloudflare": "pnpm build:cloudflare && wrangler dev",
+    "deploy": "pnpm build:cloudflare && wrangler deploy"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
     "astro": "^7.4.1",
     "embla-carousel": "^8.6.0",
     "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "wrangler": "4.86.0"
   }
 }

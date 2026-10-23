@@ -15,11 +15,11 @@ Converter `referencia/kothar-landing.html` (landing de uma página, já aprovada
 - Imagens do `assets/clientes/` viram arquivos otimizados; no HTML de referência elas estão embutidas em base64.
 - Carrossel de clientes: arrastável com mouse (inércia + snap), setas e teclado. Pode usar Embla Carousel (vanilla) ou JS simples; carregar só nessa seção.
 - FAQ continua em `<details>` nativo.
-- Contato: por enquanto `mailto:contato@kotharlabs.com` (prazo de resposta: 24 horas).
+- Contato: formulário (`/api/contato`), `mailto:contato@kotharlabs.com` e WhatsApp (32) 93505-3115, o mesmo número do Drivou (prazo de resposta: 24 horas). Dados em `src/data/site.ts`.
 - SEO: title, description, Open Graph (`assets/social/og-image-1200x630.png`), favicons (`assets/favicon/`), `lang="pt-BR"`, sitemap, robots.txt.
 - Acessibilidade: contraste AA, foco visível, `prefers-reduced-motion`.
 - Meta: Lighthouse 95+ em todas as categorias (mobile).
-- Build deve gerar `dist/` estático. Deploy: VPS com nginx ou Caddy servindo `dist/` (incluir exemplo de config e HTTPS).
+- Build deve gerar `dist/` estático. Deploy de produção: Cloudflare (`pnpm run deploy`, `cloudflare/worker.js` no lugar do nginx e da `contato-api`); a VPS com Coolify continua como alternativa. Ver `DEPLOY.md`.
 
 ## Tokens
 Papel #F3EEE3 · Linho #E6DECB · Tinta #1C1B19 · Cobre #A4501F · Verde-garrafa #22342B · Forja #1E1A16 · Elevado #28231D · Osso #EAE2D0 · Bronze #D98F5C · Areia #A89F8C · Pedra #5C574D · fio-claro #CFC5AE · fio-escuro #3A332A

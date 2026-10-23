@@ -1,5 +1,5 @@
 ---
-import { SITE, mailto } from '../data/site';
+import { SITE, mailto, whatsapp } from '../data/site';
 ---
 <section id="contato" class="contato">
   <div class="wrap sec-pad conteudo">
@@ -10,6 +10,8 @@ import { SITE, mailto } from '../data/site';
       <div class="planb">
         <span class="rotulo">Prefere e-mail?</span>
         <a class="tlink" href={mailto()}>{SITE.email}</a>
+        <span class="rotulo segundo">Ou no WhatsApp</span>
+        <a class="tlink" href={whatsapp} target="_blank" rel="noopener" data-evento="botao-whatsapp" data-onde="contato">{SITE.whatsapp.exibicao}</a>
       </div>
     </div>
     <div class="dir">
@@ -152,9 +154,11 @@ import { SITE, mailto } from '../data/site';
   .planb{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding-top:20px;border-top:1px solid var(--fio-claro);font-size:15px;line-height:24px}
   .planb .tlink{font-size:16px;font-weight:400;text-decoration-thickness:1px;text-underline-offset:5px}
   .rotulo{font-family:var(--mono);font-size:12px;line-height:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--pedra)}
+  .rotulo.segundo{margin-top:8px}
   .dir{min-width:0}
 
   .form{display:grid;grid-template-columns:1fr;gap:28px 24px}
+  .form[hidden]{display:none} /* o display:grid acima venceria o [hidden] e o form ficaria embaixo do "Recebido." */
   .campo{display:flex;flex-direction:column;gap:10px;min-width:0;margin:0;padding:0;border:0}
   label,legend{padding:0;font-family:var(--mono);font-size:12px;line-height:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--pedra)}
   legend{margin-bottom:10px}

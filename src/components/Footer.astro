@@ -1,6 +1,6 @@
 ---
 import Puncao from './Puncao.astro';
-import { SITE } from '../data/site';
+import { SITE, whatsapp } from '../data/site';
 // CNPJ ainda não existe: quando existir, entra no fim da linha legal abaixo (ver TODO.md). Hoje nada é exibido.
 ---
 <footer class="footer">
@@ -22,6 +22,7 @@ import { SITE } from '../data/site';
         <div class="col">
           <span class="eyebrow">Contato</span>
           <a class="hit" href={`mailto:${SITE.email}`}>{SITE.email}</a>
+          <a class="hit" href={whatsapp} target="_blank" rel="noopener" data-evento="botao-whatsapp" data-onde="rodape">WhatsApp {SITE.whatsapp.exibicao}</a>
           <span class="pedra">tecnoPARQ UFV · com a Drivou</span>
         </div>
       </div>
