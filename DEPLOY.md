@@ -1,5 +1,34 @@
 # Deploy — kotharlabs.com
 
+## Produção: Cloudflare (Workers + assets estáticos)
+
+Desde 23/10/2026 o kotharlabs.com roda na Cloudflare, na conta **kothalabs@gmail.com** (mesma conta do domínio e do e-mail).
+O `dist/` do Astro é servido como assets e o `cloudflare/worker.js` faz o papel do nginx + `contato-api`:
+
+- **Formulário:** mesmo contrato da `contato-api` (token de tempo `<ms>.<hmac>`, JSON ou formulário sem JS com 303 para
+  `/obrigado` e `/erro-envio`, honeypot, validação e mensagens iguais). O e-mail sai pelo **Email Routing** da Cloudflare
+  (binding `EMAIL`), sem SMTP: de `site@kotharlabs.com` para `kothalabs@gmail.com`, com `Reply-To` de quem escreveu.
+- **Token no HTML:** o que o nginx fazia por SSI, o Worker faz com `HTMLRewriter` (vale também para quem está sem JS).
+- **Limite de taxa:** em memória, por instância do Worker. É um freio, não um teto global como o da `contato-api`.
+- **Cabeçalhos:** `node scripts/gen-csp.mjs dist dist/_headers` gera os mesmos cabeçalhos de segurança, o CSP estrito
+  e o cache do `deploy/nginx.conf`, mais HSTS.
+- **www → apex:** 301 no Worker.
+- **Medição (Umami):** não roda na Cloudflare. Sem `PUBLIC_UMAMI_WEBSITE_ID` no build o script não sai, e `/medir` responde 204.
+
+### Publicar
+```bash
+pnpm install
+pnpm exec wrangler login   # uma vez, com a conta kothalabs@gmail.com
+pnpm run deploy            # build + _headers + wrangler deploy
+```
+`TOKEN_SECRET` já existe como secret do Worker (`wrangler secret put TOKEN_SECRET` só se precisar trocar).
+
+### Testar local
+`pnpm dev:cloudflare` (porta 8787). Para o token, crie `.dev.vars` com `TOKEN_SECRET=<qualquer texto longo>`.
+O e-mail não sai de verdade: o wrangler mostra o caminho de um `.eml` com a mensagem.
+
+## Alternativa: VPS com Coolify
+
 Contêiner próprio: nginx sem privilégios servindo o `dist/` na porta **8080**.
 A VPS usa **Coolify** (proxy Traefik dele, HTTPS automático): o Coolify builda a imagem a partir
 do `Dockerfile` na própria VPS, então não há rótulos nem rede de proxy neste repositório.

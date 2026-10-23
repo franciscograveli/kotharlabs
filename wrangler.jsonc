@@ -1,0 +1,25 @@
+{
+  // kotharlabs.com na Cloudflare: o dist/ do Astro como assets + cloudflare/worker.js no lugar do nginx e da contato-api.
+  // Conta: kothalabs@gmail.com. Publicar: pnpm run deploy (ver DEPLOY.md).
+  "name": "kothar-labs-site",
+  "main": "cloudflare/worker.js",
+  "compatibility_date": "2026-05-01",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash",
+    "run_worker_first": true
+  },
+  "routes": [
+    { "pattern": "kotharlabs.com", "custom_domain": true },
+    { "pattern": "www.kotharlabs.com", "custom_domain": true }
+  ],
+  // MAIL_TO precisa ser um destino já verificado no Email Routing (é a caixa para onde o contato@ encaminha)
+  "vars": {
+    "MAIL_FROM": "site@kotharlabs.com",
+    "MAIL_TO": "kothalabs@gmail.com"
+  },
+  "send_email": [{ "name": "EMAIL", "destination_address": "kothalabs@gmail.com" }]
+  // TOKEN_SECRET: wrangler secret put TOKEN_SECRET (já existe no Worker publicado; no dev local fica em .dev.vars)
+}
